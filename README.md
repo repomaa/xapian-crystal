@@ -1,14 +1,16 @@
-# xapian
+# xapian-crystal
 
-TODO: Write a description here for library
+Xapian bindings for crystal
 
 ## Installation
 
-Add it to `Projectfile`
+1. install [xapian](http://xapian.org/)
+2. Compile and install https://github.com/endlessm/xapian-glib
+3. Add xapian to `Projectfile`
 
 ```crystal
 deps do
-  github "[your-github-name]/xapian"
+  github "jreinert/xapian-crystal"
 end
 ```
 
@@ -34,4 +36,4 @@ TODO: Write instructions for development
 
 ## Contributors
 
-- [your-github-name](https://github.com/[your-github-name]) Joakim Reinert - creator, maintainer
+- [jreinert](https://github.com/jreinert) Joakim Reinert - creator, maintainer
