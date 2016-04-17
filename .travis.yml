@@ -2,7 +2,7 @@ sudo: required
 language: crystal
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update; sudo apt-get install -yq gcc-4.8 g++-4.8 uuid-dev libglib2.0-dev gtk-doc-tools
+  - sudo apt-get update; sudo apt-get install -yq gcc-4.8 g++-4.8 uuid-dev libglib2.0-dev gtk-doc-tools gobject-introspection
   - sudo mv /usr/bin/gcc-4.8 /usr/bin/gcc
   - sudo mv /usr/bin/g++-4.8 /usr/bin/g++
   - wget http://oligarchy.co.uk/xapian/1.3.5/xapian-core-1.3.5.tar.xz -O /tmp/xapian-core.tar.xz
