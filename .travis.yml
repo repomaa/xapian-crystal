@@ -13,4 +13,4 @@ before_install:
   - tar xzf /tmp/xapian-glib.tar.gz -C /tmp
   - cd /tmp/xapian-glib-Release_2.6.0 && ./autogen.sh && ./configure --prefix=/usr && make && sudo make install
 script:
-  - make spec
+  - cd $TRAVIS_BUILD_DIR && make spec
