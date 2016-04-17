@@ -1,4 +1,4 @@
-# xapian-crystal
+# xapian-crystal [![Build Status](https://travis-ci.org/jreinert/xapian-crystal.svg?branch=master)](https://travis-ci.org/jreinert/xapian-crystal)
 
 Xapian bindings for crystal
 
@@ -6,12 +6,12 @@ Xapian bindings for crystal
 
 1. install [xapian](http://xapian.org/)
 2. Compile and install https://github.com/endlessm/xapian-glib
-3. Add xapian to `Projectfile`
+3. Add the following to your application's `shard.yml`:
 
-```crystal
-deps do
-  github "jreinert/xapian-crystal"
-end
+```yaml
+dependencies:
+  xapian:
+    github: jreinert/xapian-crystal
 ```
 
 ## Usage
