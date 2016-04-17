@@ -8,7 +8,7 @@ module Xapian
 
     getter language
 
-    def initialize(@language = "none" : String)
+    def initialize(@language : String = "none")
       unless @language == "none" || self.class.available_languages.includes?(@language)
         raise UnsupportedLanguageError.new(@language)
       end
@@ -33,7 +33,7 @@ module Xapian
     end
 
     private def self.available_languages_count
-      Int32.cast(LibGlib.strv_length(LibXapian.stem_get_available_languages))
+      LibGlib.strv_length(LibXapian.stem_get_available_languages).to_i32
     end
   end
 end

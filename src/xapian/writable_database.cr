@@ -15,7 +15,7 @@ module Xapian
       end
     end
 
-    def transaction(flushed = true : Bool)
+    def transaction(flushed : Bool = true)
       begin_transaction(flushed)
       begin
         yield(self)

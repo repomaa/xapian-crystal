@@ -5,7 +5,7 @@ module Xapian
   class TermGenerator
     getter flags, stem
 
-    def initialize(database : WritableDatabase, spelling = false : Bool, stemmer = nil : Stem?, language = "none" : String)
+    def initialize(database : WritableDatabase, spelling : Bool = false, stemmer : Stem? = nil, language : String = "none")
       @term_generator = LibXapian.term_generator_new
       @flags = LibXapian::TermGeneratorFeature::NONE
       @stem = stemmer || Stem.new(language)
@@ -20,8 +20,8 @@ module Xapian
       LibXapian.term_generator_set_document(self, document)
     end
 
-    def index_text(data : String, prefix = nil : String?, wdf_increment = 1 : Int32)
-      LibXapian.term_generator_index_text(self, data, UInt32.cast(wdf_increment), prefix)
+    def index_text(data : String, prefix : String? = nil, wdf_increment : Int32 = 1)
+      LibXapian.term_generator_index_text(self, data, wdf_increment.to_u32, prefix)
     end
 
     def to_unsafe

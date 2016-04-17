@@ -3,10 +3,10 @@ require "./lib_glib.cr"
 
 lib LibXapian
   enum DatabaseAction
-    CREATE_OR_OPEN = 1
+    CREATE_OR_OPEN = 0
+    CREATE_OR_OVERWRITE = 1
     CREATE = 2
-    CREATE_OR_OVERWRITE = 3
-    OPEN = 4
+    OPEN = 3
   end
 
   enum Error

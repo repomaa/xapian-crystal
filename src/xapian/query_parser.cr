@@ -1,6 +1,6 @@
 module Xapian
   class QueryParser
-    def initialize(database : Database, stemmer = nil : Stem?, language = "none" : String, @default_prefix = "" : String)
+    def initialize(database : Database, stemmer : Stem? = nil, language : String = "none", @default_prefix : String = "")
       @parser = LibXapian.query_parser_new
       @stem = stemmer || Stem.new(language)
       @flags = LibXapian::QueryParserFeature::DEFAULT
@@ -12,7 +12,7 @@ module Xapian
       LibXapian.query_parser_add_prefix(self, field, prefix)
     end
 
-    def add_boolean_prefix(field : String, prefix : String, exclusive = true : Bool)
+    def add_boolean_prefix(field : String, prefix : String, exclusive : Bool = true)
       LibXapian.query_parser_add_boolean_prefix(self, field, prefix, Glib::Boolean.from_bool(exclusive))
     end
 
