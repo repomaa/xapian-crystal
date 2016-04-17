@@ -1,7 +1,14 @@
 sudo: required
 language: crystal
 before_install:
-  - sudo apt-get update && sudo apt-get install -qy gcc m4 make autoconf automake libtool
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update; sudo apt-get install gcc-4.8 g++-4.8
+  - sudo update-alternatives --remove-all gcc
+  - sudo update-alternatives --remove-all g++
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
+  - sudo update-alternatives --config gcc
+  - sudo update-alternatives --config g++
   - wget http://oligarchy.co.uk/xapian/1.3.5/xapian-core-1.3.5.tar.xz -O /tmp/xapian-core.tar.xz
   - tar xavf /tmp/xapian-core.tar.xz -C /tmp
   - cd /tmp/xapian-core-1.3.5 && ./configure --prefix=/usr && make && sudo make install
