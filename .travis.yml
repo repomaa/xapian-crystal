@@ -1,7 +1,7 @@
 sudo: required
 language: crystal
 before_install:
-  - sudo apt-get install -qy m4 make autoconf automake libtool
+  - sudo apt-get update && sudo apt-get install -qy gcc m4 make autoconf automake libtool
   - wget http://oligarchy.co.uk/xapian/1.3.5/xapian-core-1.3.5.tar.xz -O /tmp/xapian-core.tar.xz
   - tar xavf /tmp/xapian-core.tar.xz -C /tmp
   - cd /tmp/xapian-core-1.3.5 && ./configure --prefix=/usr && make && sudo make install
