@@ -4,12 +4,13 @@ module Xapian
   class Document
     alias Id = UInt32
 
-    def initialize(document = nil)
-      @document = document || LibXapian.document_new
-    end
+    @document : LibXapian::Document
+    @values : ValueSlots
 
-    def values : ValueSlots
-      @values ||= ValueSlots.new(self)
+    getter :values
+
+    def initialize(@document = LibXapian.document_new)
+      @values = ValueSlots.new(@document)
     end
 
     def data=(data : String)
@@ -21,12 +22,11 @@ module Xapian
     end
 
     def to_unsafe
-      @document || Pointer(LibXapian::Document).null
+      @document
     end
 
     class ValueSlots
-      def initialize(document)
-        @document = document
+      def initialize(@document : LibXapian::Document)
       end
 
       def [](slot : UInt32)

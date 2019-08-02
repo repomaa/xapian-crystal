@@ -15,7 +15,7 @@ describe Xapian::WritableDatabase do
 
     it "raises if it already exists" do
       Xapian::WritableDatabase.create("test-db")
-      expect_raises do
+      expect_raises(Glib::Error) do
         Xapian::WritableDatabase.create("test-db")
       end
     end
@@ -28,8 +28,8 @@ describe Xapian::WritableDatabase do
       Xapian::WritableDatabase.open("test-db")
     end
 
-    it "raises if database doesn't exist" do
-      expect_raises do
+    pending "raises if database doesn't exist" do
+      expect_raises(Glib::Error) do
         Xapian::WritableDatabase.open("test-db")
       end
     end
@@ -93,7 +93,7 @@ describe Xapian::WritableDatabase do
 
     it "raises an exception if trying to delete non existing document" do
       db = Xapian::WritableDatabase.create("test-db")
-      expect_raises do
+      expect_raises(Glib::Error) do
         db.delete_document(1_u32)
       end
     end

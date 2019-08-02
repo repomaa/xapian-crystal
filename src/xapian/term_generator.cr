@@ -5,13 +5,12 @@ module Xapian
   class TermGenerator
     getter flags, stem
 
-    def initialize(database : WritableDatabase, spelling : Bool = false, stemmer : Stem? = nil, language : String = "none")
+    def initialize(database : WritableDatabase, spelling : Bool = false, language : String = "none", @stem : Stem = Stem.new(language))
       @term_generator = LibXapian.term_generator_new
       @flags = LibXapian::TermGeneratorFeature::NONE
-      @stem = stemmer || Stem.new(language)
       @flags |= LibXapian::TermGeneratorFeature::SPELLING if spelling
 
-      LibXapian.term_generator_set_database(self, database)
+      LibXapian.term_generator_set_database(self, database.as_writable)
       LibXapian.term_generator_set_flags(self, @flags)
       LibXapian.term_generator_set_stemmer(self, @stem)
     end
@@ -25,7 +24,7 @@ module Xapian
     end
 
     def to_unsafe
-      @term_generator || Pointer(LibXapian::TermGenerator).null
+      @term_generator
     end
   end
 end

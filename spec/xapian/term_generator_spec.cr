@@ -35,7 +35,7 @@ describe Xapian::TermGenerator do
     it "sets a stemmer accordingly if stemmer option is set" do
       db = Xapian::WritableDatabase.create("test-db")
       stem = Xapian::Stem.new("german")
-      term_generator = Xapian::TermGenerator.new(db, stemmer: stem)
+      term_generator = Xapian::TermGenerator.new(db, stem: stem)
       term_generator.stem.should be_a(Xapian::Stem)
       term_generator.stem.language.should eq("german")
     end

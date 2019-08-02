@@ -1,28 +1,26 @@
-require "../lib_xapian"
 require "../glib/error"
+require "../lib_xapian"
 
 module Xapian
   class Database
-    def initialize(path : String)
-      Glib::Error.assert do |error|
-        @database = LibXapian.database_new_with_path(path, error)
-      end
+    def self.new(path : String)
+      db = LibXapian.database_new_with_path(path)
+      new(db)
+    end
+
+    def initialize(@database : LibXapian::Database)
     end
 
     def close
-      LibXapian.database_close(to_database)
+      LibXapian.database_close(self)
     end
 
     def reopen
-      LibXapian.database_reopen(to_database)
+      LibXapian.database_reopen(self)
     end
 
     def to_unsafe
-      (@database || Pointer(LibXapian::Database).null) as Pointer(LibXapian::Database)
-    end
-
-    protected def to_database
-      to_unsafe as Pointer(LibXapian::Database)
+      @database
     end
   end
 end

@@ -4,7 +4,7 @@ describe Xapian::Query do
   describe ".new" do
     it "runs without errors" do
       query = Xapian::Query.new("foo")
-      Xapian::Query.new(query.to_unsafe)
+      Xapian::Query.new(query)
     end
   end
 

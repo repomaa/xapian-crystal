@@ -1,3 +1,5 @@
+require "../lib_xapian"
+
 module Xapian
   class Stem
     class UnsupportedLanguageError < Exception
@@ -8,32 +10,33 @@ module Xapian
 
     getter language
 
+    @@available_languages : Array(String)?
+    @stem : LibXapian::Stem
+
     def initialize(@language : String = "none")
       unless @language == "none" || self.class.available_languages.includes?(@language)
         raise UnsupportedLanguageError.new(@language)
       end
 
-      Glib::Error.assert do |error|
-        @stem = LibXapian.stem_new_for_language(@language, error)
+      @stem = Glib::Error.assert do |error|
+        LibXapian.stem_new_for_language(@language, error)
       end
     end
 
     def to_unsafe
-      @stem || Pointer(LibXapian::Stem).null
+      @stem
     end
 
     def self.available_languages
-      @@available_languages ||= begin
-        lang_count = available_languages_count
-        languages = LibXapian.stem_get_available_languages
-        languages.to_slice(lang_count).map do |lang_pointer|
-          String.new(lang_pointer)
-        end
-      end
+      @@available_languages ||= query_available_languages
     end
 
-    private def self.available_languages_count
-      LibGlib.strv_length(LibXapian.stem_get_available_languages).to_i32
+    private def self.query_available_languages
+      languages = LibXapian.stem_get_available_languages
+      lang_count = LibGlib.strv_length(languages).to_i32
+      Array.new(lang_count) do |index|
+        String.new(languages[index])
+      end
     end
   end
 end

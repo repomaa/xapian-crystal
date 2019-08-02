@@ -1,5 +1,6 @@
 require "./database"
 require "../glib/boolean"
+require "../glib/error"
 require "./document"
 
 module Xapian
@@ -9,10 +10,12 @@ module Xapian
     CREATE_OR_OVERWRITE = LibXapian::DatabaseAction::CREATE_OR_OVERWRITE
     OPEN = LibXapian::DatabaseAction::OPEN
 
-    def initialize(path, action)
-      Glib::Error.assert do |error|
-        @database = LibXapian.writable_database_new(path, action, error)
+    def self.new(path, action)
+      handler = Glib::Error.assert do |error|
+        LibXapian.writable_database_new(path, action, error)
       end
+
+      new(handler.as(LibXapian::Database))
     end
 
     def transaction(flushed : Bool = true)
@@ -28,23 +31,21 @@ module Xapian
 
     def add_document(document : Document) : Document::Id
       Glib::Error.assert do |error|
-        result = LibXapian.writable_database_add_document(self, document, out id, error)
-        raise Exception.new("failed to add document") if Glib::Boolean.new(result).false?
+        LibXapian.writable_database_add_document(as_writable, document, out id, error)
+
         id
       end
     end
 
     def replace_document(id : Document::Id, document : Document)
       Glib::Error.assert do |error|
-        result = LibXapian.writable_database_replace_document(self, id, document, error)
-        raise Exception.new("failed to replace document") if Glib::Boolean.new(result).false?
+        LibXapian.writable_database_replace_document(as_writable, id, document, error)
       end
     end
 
     def delete_document(id : Document::Id)
       Glib::Error.assert do |error|
-        result = LibXapian.writable_database_delete_document(self, id, error)
-        raise Exception.new("failed to delete document") if Glib::Boolean.new(result).false?
+        LibXapian.writable_database_delete_document(as_writable, id, error)
       end
     end
 
@@ -64,28 +65,27 @@ module Xapian
       new(path, OPEN)
     end
 
-    def to_unsafe
-      @database || Pointer(LibXapian::WritableDatabase).null
+    def as_writable
+      @database.as(LibXapian::WritableDatabase)
     end
 
     private def begin_transaction(flushed)
       Glib::Error.assert do |error|
-        result = LibXapian.writable_database_begin_transaction(self, Glib::Boolean.from_bool(flushed), error)
-        raise Exception.new("failed to begin transaction") if Glib::Boolean.new(result).false?
+        LibXapian.writable_database_begin_transaction(
+          as_writable, Glib::Boolean.from_bool(flushed), error
+        )
       end
     end
 
     private def cancel_transaction
       Glib::Error.assert do |error|
-        result = LibXapian.writable_database_cancel_transaction(self, error)
-        raise Exception.new("failed to cancel transaction") if Glib::Boolean.new(result).false?
+        LibXapian.writable_database_cancel_transaction(as_writable, error)
       end
     end
 
     private def commit_transaction
       Glib::Error.assert do |error|
-        result = LibXapian.writable_database_commit_transaction(self, error)
-        raise Exception.new("failed to cancel transaction") if Glib::Boolean.new(result).false?
+        LibXapian.writable_database_commit_transaction(as_writable, error)
       end
     end
   end

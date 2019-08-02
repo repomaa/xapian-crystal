@@ -4,7 +4,8 @@ module Xapian
   class Query
     alias Op = LibXapian::QueryOp
 
-    def initialize(@query : LibXapian::Query*)
+    def self.new(query : Query)
+      new(query.to_unsafe)
     end
 
     def self.new(term : String)
@@ -13,6 +14,9 @@ module Xapian
 
     def self.match_all
       new(LibXapian.query_new_match_all)
+    end
+
+    def initialize(@query : LibXapian::Query)
     end
 
     def join(op : Op, other : Query)
@@ -37,7 +41,7 @@ module Xapian
     end
 
     def to_unsafe
-      @query || Pointer(LibXapian::Query).null
+      @query
     end
   end
 end
