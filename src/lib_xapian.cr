@@ -124,4 +124,7 @@ lib LibXapian
   fun query_serialize = xapian_query_serialize(query : Query) : UInt8*
 
   fun enquire_new = xapian_enquire_new(db : Database, error : LibGlib::Error**) : Enquire
+
+  fun sortable_serialise = xapian_sortable_serialise(value : Float64, length_ptr : UInt64*) : UInt8*
+  fun sortable_unserialise = xapian_sortable_unserialise(value : UInt8*, length : UInt64) : Float64
 end

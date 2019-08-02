@@ -24,10 +24,28 @@ describe Xapian::Document do
 
   describe "#values" do
     describe "#[]=" do
-      it "sets a value for the document" do
-        doc = Xapian::Document.new
-        doc.values[0_u32] = "foo"
-        doc.values[0_u32].should(eq("foo"))
+      context "with string" do
+        it "sets a value for the document" do
+          doc = Xapian::Document.new
+          doc.values[0_u32] = "foo"
+          doc.values[0_u32].as_s.should(eq("foo"))
+        end
+      end
+
+      context "with integer" do
+        it "sets a value for the document" do
+          doc = Xapian::Document.new
+          doc.values[0_u32] = 42
+          doc.values[0_u32].as_i.should(eq(42))
+        end
+      end
+
+      context "with float" do
+        it "sets a value for the document" do
+          doc = Xapian::Document.new
+          doc.values[0_u32] = 42.3
+          doc.values[0_u32].as_f.should(eq(42.3))
+        end
       end
     end
 
