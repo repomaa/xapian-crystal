@@ -40,6 +40,12 @@ term_generator.index_text(body)         # don't use prefix for body
 
 # Add the document to the database
 db.add_document(doc)
+
+# Repeat with as many documents as you like
+# ...
+
+# Commit changes
+db.commit
 ```
 
 ### Searching
