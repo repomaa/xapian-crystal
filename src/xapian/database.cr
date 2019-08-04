@@ -4,7 +4,10 @@ require "../lib_xapian"
 module Xapian
   class Database
     def self.new(path : String)
-      db = LibXapian.database_new_with_path(path)
+      db = Glib::Error.assert do |error|
+        LibXapian.database_new_with_path(path, error)
+      end
+
       new(db)
     end
 

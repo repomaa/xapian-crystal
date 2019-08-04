@@ -80,7 +80,7 @@ lib LibXapian
   type Mset = Void*
   type MsetIterator = Void*
 
-  fun database_new_with_path = xapian_database_new_with_path(path : UInt8*) : Database
+  fun database_new_with_path = xapian_database_new_with_path(path : UInt8*, error : LibGlib::Error**) : Database
   fun writable_database_new = xapian_writable_database_new(path : UInt8*, action : DatabaseAction, error : LibGlib::Error**) : WritableDatabase
   fun writable_database_add_document = xapian_writable_database_add_document(database : WritableDatabase, document : Document, id_out : UInt32*, error : LibGlib::Error**) : LibGlib::Boolean
   fun writable_database_delete_document = xapian_writable_database_delete_document(database : WritableDatabase, id : UInt32, error : LibGlib::Error**) : LibGlib::Boolean
