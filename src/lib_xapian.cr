@@ -117,7 +117,7 @@ lib LibXapian
   fun query_parser_set_database = xapian_query_parser_set_database(parser : QueryParser, database : Database)
   fun query_parser_add_prefix = xapian_query_parser_add_prefix(parser : QueryParser, field : UInt8*, prefix : UInt8*)
   fun query_parser_add_boolean_prefix = xapian_query_parser_add_boolean_prefix(parser : QueryParser, field : UInt8*, prefix : UInt8*, exclusive : LibGlib::Boolean)
-  fun query_parser_parse_query = xapian_query_parser_parse_query_full(parser : QueryParser, query_string : UInt8*, flags : QueryParserFeature, default_prefix : UInt8*, error : LibGlib::Error**)
+  fun query_parser_parse_query = xapian_query_parser_parse_query_full(parser : QueryParser, query_string : UInt8*, flags : QueryParserFeature, default_prefix : UInt8*, error : LibGlib::Error**) : Query
 
   fun query_new_for_term = xapian_query_new_for_term(term : UInt8*) : Query
   fun query_new_for_pair = xapian_query_new_for_pair(op : QueryOp, a : Query, b : Query) : Query
