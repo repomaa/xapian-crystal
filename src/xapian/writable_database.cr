@@ -18,6 +18,12 @@ module Xapian
       new(handler.as(LibXapian::Database))
     end
 
+    def commit
+      Glib::Error.assert do |error|
+        LibXapian.writable_database_commit(self, error)
+      end
+    end
+
     def transaction(flushed : Bool = true)
       begin_transaction(flushed)
       begin

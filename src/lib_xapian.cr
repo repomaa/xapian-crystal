@@ -88,6 +88,7 @@ lib LibXapian
   fun writable_database_begin_transaction = xapian_writable_database_begin_transaction(database : WritableDatabase, flushed : LibGlib::Boolean, error : LibGlib::Error**) : LibGlib::Boolean
   fun writable_database_cancel_transaction = xapian_writable_database_cancel_transaction(database : WritableDatabase, error : LibGlib::Error**) : LibGlib::Boolean
   fun writable_database_commit_transaction = xapian_writable_database_commit_transaction(database : WritableDatabase, error : LibGlib::Error**) : LibGlib::Boolean
+  fun writable_database_commit = xapian_writable_database_commit(database : WritableDatabase, error : LibGlib::Error**) : LibGlib::Boolean
   fun database_close = xapian_database_close(database : Database)
   fun database_reopen = xapian_database_reopen(database : Database)
   fun database_get_doc_count = xapian_database_get_doc_count(database : Database) : UInt32
