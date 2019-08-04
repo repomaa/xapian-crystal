@@ -20,7 +20,7 @@ module Xapian
 
     def commit
       Glib::Error.assert do |error|
-        LibXapian.writable_database_commit(self, error)
+        LibXapian.writable_database_commit(as_writable, error)
       end
     end
 
