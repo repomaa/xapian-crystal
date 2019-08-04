@@ -11,6 +11,10 @@ module Xapian
     def initialize(@database : LibXapian::Database)
     end
 
+    def doc_count
+      LibXapian.database_get_doc_count(self)
+    end
+
     def close
       LibXapian.database_close(self)
     end

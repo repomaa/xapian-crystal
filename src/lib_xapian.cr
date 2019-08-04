@@ -77,6 +77,8 @@ lib LibXapian
   type QueryParser = Void*
   type Query = Void*
   type Enquire = Void*
+  type Mset = Void*
+  type MsetIterator = Void*
 
   fun database_new_with_path = xapian_database_new_with_path(path : UInt8*) : Database
   fun writable_database_new = xapian_writable_database_new(path : UInt8*, action : DatabaseAction, error : LibGlib::Error**) : WritableDatabase
@@ -88,6 +90,7 @@ lib LibXapian
   fun writable_database_commit_transaction = xapian_writable_database_commit_transaction(database : WritableDatabase, error : LibGlib::Error**) : LibGlib::Boolean
   fun database_close = xapian_database_close(database : Database)
   fun database_reopen = xapian_database_reopen(database : Database)
+  fun database_get_doc_count = xapian_database_get_doc_count(database : Database) : UInt32
 
   fun document_new = xapian_document_new : Document
   fun document_get_value = xapian_document_get_value(document : Document, slot : UInt32) : UInt8*
@@ -124,7 +127,17 @@ lib LibXapian
   fun query_serialize = xapian_query_serialize(query : Query) : UInt8*
 
   fun enquire_new = xapian_enquire_new(db : Database, error : LibGlib::Error**) : Enquire
+  fun enquire_set_query = xapian_enquire_set_query(enquire : Enquire, query : Query, qlen : UInt32) : Void
+  fun enquire_get_mset = xapian_enquire_get_mset(enquire : Enquire, first : UInt32, max_items : UInt32, error : LibGlib::Error**) : Mset
+  fun enquire_set_sort_by_value = xapian_enquire_set_sort_by_value(enquire : Enquire, value : UInt32, reverse : LibGlib::Boolean) : Void
 
   fun sortable_serialise = xapian_sortable_serialise(value : Float64, length_ptr : UInt64*) : UInt8*
   fun sortable_unserialise = xapian_sortable_unserialise(value : UInt8*, length : UInt64) : Float64
+  fun mset_get_size = xapian_mset_get_size(mset : Mset) : UInt32
+  fun mset_is_empty = xapian_mset_is_empty(mset : Mset) : LibGlib::Boolean
+  fun mset_get_begin = xapian_mset_get_begin(mset : Mset) : MsetIterator
+  fun mset_iterator_is_end = xapian_mset_iterator_is_end(iterator : MsetIterator) : LibGlib::Boolean
+  fun mset_iterator_get_document = xapian_mset_iterator_get_document(iterator : MsetIterator, error : LibGlib::Error**) : Document
+  fun mset_iterator_get_doc_id = xapian_mset_iterator_get_doc_id(iterator : MsetIterator, error : LibGlib::Error**) : UInt32
+  fun mset_iterator_next = xapian_mset_iterator_next(iterator : MsetIterator) : LibGlib::Boolean
 end

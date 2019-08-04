@@ -1,5 +1,5 @@
 module Glib
-  class Boolean
+  struct Boolean
     def initialize(@value : LibGlib::Boolean)
     end
 
