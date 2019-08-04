@@ -1,8 +1,7 @@
 module Xapian
   class QueryParser
-    def initialize(database : Database, stemmer : Stem? = nil, language : String = "none", @default_prefix : String = "")
+    def initialize(database : Database, language : String = "none", @stem : Stem = Stem.new(language), @default_prefix : String = "")
       @parser = LibXapian.query_parser_new
-      @stem = stemmer || Stem.new(language)
       @flags = LibXapian::QueryParserFeature::DEFAULT
       LibXapian.query_parser_set_database(self,database)
       LibXapian.query_parser_set_stemmer(self, @stem)
@@ -23,7 +22,7 @@ module Xapian
     end
 
     def to_unsafe
-      @parser || Pointer(LibXapian::QueryParser).null
+      @parser || Pointer(Void).null.as(LibXapian::QueryParser)
     end
   end
 end
