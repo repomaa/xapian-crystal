@@ -125,7 +125,7 @@ lib LibXapian
   fun query_is_empty = xapian_query_is_empty(query : Query) : LibGlib::Boolean
   fun query_get_length = xapian_query_get_length(query : Query) : UInt32
   fun query_get_description = xapian_query_get_description(query : Query) : UInt8*
-  fun query_serialize = xapian_query_serialize(query : Query) : UInt8*
+  fun query_serialise = xapian_query_serialise(query : Query) : UInt8*
 
   fun enquire_new = xapian_enquire_new(db : Database, error : LibGlib::Error**) : Enquire
   fun enquire_set_query = xapian_enquire_set_query(enquire : Enquire, query : Query, qlen : UInt32) : Void
