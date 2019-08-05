@@ -21,7 +21,7 @@ module Xapian
     def map(&block : (Document::Id, Document) -> T) forall T
       each.map do |(id, document)|
         block.call(id, document)
-      end
+      end.to_a
     end
 
     def size
