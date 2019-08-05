@@ -18,6 +18,12 @@ module Xapian
       end
     end
 
+    def map
+      each.map do |(id, document)|
+        yield id, document
+      end
+    end
+
     def size
       LibXapian.mset_get_size(self)
     end
@@ -37,7 +43,8 @@ module Xapian
       end
 
       def next
-        return stop if Glib::Boolean.new(LibXapian.mset_iterator_is_end(self)).true?
+        has_next = Glib::Boolean.new(LibXapian.mset_iterator_next(self)).true?
+        return stop unless has_next
 
         document = Glib::Error.assert do |error|
           Document.new(LibXapian.mset_iterator_get_document(self, error))
@@ -47,7 +54,6 @@ module Xapian
           LibXapian.mset_iterator_get_doc_id(self, error)
         end
 
-        LibXapian.mset_iterator_next(self)
         {id, document}
       end
 
