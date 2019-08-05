@@ -32,30 +32,48 @@ describe Xapian::Enquire do
   end
 
   describe "searching" do
-    db = Xapian::WritableDatabase.create_or_open("test-db")
-    subject = Xapian::Enquire.new(db)
-
     it "returns all documents for a match all query" do
+      db = Xapian::WritableDatabase.create_or_open("test-db")
       5.times { db.add_document(Xapian::Document.new) }
+      db.commit
+      db.close
+
+      ro_db = Xapian::Database.new("test-db")
+
+      subject = Xapian::Enquire.new(ro_db)
       subject.set_query(Xapian::Query.match_all)
+
       subject.results.size.should eq(5)
     end
 
     describe Xapian::Mset do
       it "allows iterating over id document pairs" do
-        5.times { db.add_document(Xapian::Document.new) }
-        subject.set_query(Xapian::Query.match_all)
-        results = subject.results
-        results.should_not be_empty
-        iterated = false
+        db = Xapian::WritableDatabase.create_or_open("test-db")
 
-        results.each do |id, document|
-          iterated = true
-          id.should be_a(Xapian::Document::Id)
-          document.should be_a(Xapian::Document)
+        inserted_docs = Array.new(5) do
+          doc = Xapian::Document.new
+          doc.data = "test"
+          doc.values[0] = 5
+
+          {id: db.add_document(doc), data: doc.data, value: doc.values[0].as_i}
         end
 
-        iterated.should be_true
+        db.commit
+        db.close
+
+        ro_db = Xapian::Database.new("test-db")
+
+        subject = Xapian::Enquire.new(ro_db)
+        subject.set_query(Xapian::Query.match_all)
+
+        results = subject.results
+        results.should_not be_empty
+
+        queried_docs = results.map do |id, doc|
+          {id: id, data: doc.data, value: doc.values[0].as_i}
+        end
+
+        queried_docs.should eq(inserted_docs)
       end
     end
   end
