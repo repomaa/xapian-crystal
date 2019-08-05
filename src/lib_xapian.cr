@@ -107,7 +107,7 @@ lib LibXapian
   fun term_generator_set_flags = xapian_term_generator_set_flags(term_generator : TermGenerator, flags : TermGeneratorFeature)
   fun term_generator_set_stemmer = xapian_term_generator_set_stemmer(term_generator : TermGenerator, stemmer : Stem)
   fun term_generator_set_document = xapian_term_generator_set_document(term_generator : TermGenerator, document : Document)
-  fun term_generator_index_text = xapian_term_generator_index_text(term_generator : TermGenerator, data : UInt8*, wdf_inc : UInt32, prefix : UInt8*)
+  fun term_generator_index_text = xapian_term_generator_index_text_full(term_generator : TermGenerator, data : UInt8*, wdf_inc : UInt32, prefix : UInt8*)
 
   fun stem_new_for_language = xapian_stem_new_for_language(language : UInt8*, error : LibGlib::Error**) : Stem
   fun stem_get_available_languages = xapian_stem_get_available_languages : UInt8**
