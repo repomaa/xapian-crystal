@@ -12,9 +12,9 @@ module Xapian
       Iterator.new(LibXapian.mset_get_begin(self))
     end
 
-    def each
+    def each(& : Tuple(Document::Id, Document) ->) : Nil
       each.each do |(id, document)|
-        yield id, document
+        yield({ id, document })
       end
     end
 
